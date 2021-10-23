@@ -1,14 +1,14 @@
 class Problem:
-    countries = {}
-    neighbors = {}
-    colors = {}
+    countries = {}  # X
+    neighbors = {}  # c
+    colors = {}     # D
 
     def __init__(self, filename):
         f = open(filename, "r")
         countriestxt = f.readline()
         countriestxt = countriestxt.replace(" ", "")
         countriestxt = countriestxt.replace("\n", "")
-        countries = countriestxt.split(",")
+        self.countries = countriestxt.split(",")
 
         neighborstxt = f.readline()
         neighborstxt = neighborstxt.replace(" ", "")
@@ -30,6 +30,3 @@ class Problem:
             temp[1] = temp[1].replace("}", "")
             Problem.colors[temp[0]] = temp[1].split(",")
 
-        print(countries)
-        print(Problem.neighbors)
-        print(Problem.colors)
