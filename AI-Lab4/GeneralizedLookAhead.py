@@ -20,11 +20,13 @@ class GeneralizedLookAhead:
             lastInit[c] = D[c].copy()
         while 0 <= i <= len(self.p.colors) - 1:
             xi = self.selectValue(sol_type, D, self.p.countries[i], i, D[self.p.countries[i]], self.p.neighbors)
-            print(xi)
-            #print(states)
             if not xi:
                 i = i-1
                 lastInit = states.pop()
+                lastInit = states.pop()
+                if not states:
+                    states.append(lastInit)
+                solution.pop()
                 for c in D:
                     D[c] = lastInit[c].copy()
             else:
@@ -37,7 +39,7 @@ class GeneralizedLookAhead:
         if i == -1:
             return "Inconsistent"
         else:
-            return solution
+            return [solution, self.p.countries]
 
 
 
