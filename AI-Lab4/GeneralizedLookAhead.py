@@ -21,17 +21,18 @@ class GeneralizedLookAhead:
         while 0 <= i <= len(self.p.colors) - 1:
             xi = self.selectValue(sol_type, D, self.p.countries[i], i, D[self.p.countries[i]], self.p.neighbors)
             if not xi:
-                i = i-1
+                i = i - 1
                 lastInit = states.pop()
                 lastInit = states.pop()
                 if not states:
                     states.append(lastInit)
                 solution.pop()
-                for c in D:
-                    D[c] = lastInit[c].copy()
+                for c in range(0, len(self.p.colors) - 1):
+                    if c > i:
+                        D[self.p.countries[c]] = lastInit[self.p.countries[c]].copy()
             else:
                 solution.append(xi)
-                i = i+1
+                i = i + 1
                 lastInit = D.copy()
                 for c in D:
                     lastInit[c] = D[c].copy()
@@ -41,8 +42,6 @@ class GeneralizedLookAhead:
         else:
             return [solution, self.p.countries]
 
-
-
     def selectValue(self, sol_type, colors, key, i, colors_key, neighbors):
         if sol_type == 1:
             return self.FC(colors, key, i, colors_key, neighbors)
@@ -51,14 +50,14 @@ class GeneralizedLookAhead:
 
     def FC(self, colors, key, i, colors_key, neighbors):
         while colors[key]:
-            random = randint(0, len(colors[key])-1)
+            random = randint(0, len(colors[key]) - 1)
             a = colors[key][random]
             colors[key].remove(a)
             temp = colors.copy()
             for c in colors:
                 temp[c] = colors[c].copy()
             empty_domain = False
-            for k in range(i+1, len(colors)):
+            for k in range(i + 1, len(colors)):
                 for b in colors[self.p.countries[k]]:
                     if a == b and key in neighbors[self.p.countries[k]]:
                         colors[self.p.countries[k]].remove(b)
